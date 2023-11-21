@@ -1,0 +1,17 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - rabbit_data:/var/lib/rabbitmq
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
+volumes:
+  rabbit_data:
+    driver: local

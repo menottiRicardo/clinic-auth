@@ -10,7 +10,7 @@ function configureSwagger(app): void {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/api/docs', app, document);
+  SwaggerModule.setup('/auth/api/docs', app, document);
 }
 
 async function bootstrap() {
@@ -22,9 +22,8 @@ async function bootstrap() {
   app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: [`${configService.get('RABBITMQ_URL')}`],
+      urls: ['amqp://localhost:5672'],
       queue: `${configService.get('RABBITMQ_AUTH_QUEUE')}`,
-      queueOptions: { durable: false },
       prefetchCount: 1,
     },
   });

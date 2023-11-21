@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/users.schema';
@@ -24,11 +24,13 @@ export class AuthService {
   }
 
   async validateToken(token: string): Promise<any> {
-    const isValid = await this.jwtService.verify(token);
     try {
+      const isValid = await this.jwtService.verifyAsync(token);
       return isValid;
     } catch (error) {
-      return null;
+      console.log('error', error);
+      // throw new UnauthorizedException();
+      throw new UnauthorizedException();
     }
   }
 

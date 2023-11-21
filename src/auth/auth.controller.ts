@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from 'src/core/constants';
 import { MessagePattern, Payload } from '@nestjs/microservices';
@@ -21,6 +21,7 @@ export class AuthController {
 
   @MessagePattern('validate_token')
   public async getUserByAccessToken(@Payload() token: string) {
-    return this.authService.validateToken(token);
+    const isValid = await this.authService.validateToken(token);
+    return isValid ? true : false;
   }
 }
