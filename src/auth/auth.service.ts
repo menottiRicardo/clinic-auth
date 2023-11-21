@@ -23,6 +23,15 @@ export class AuthService {
     return null;
   }
 
+  async validateToken(token: string): Promise<any> {
+    const isValid = await this.jwtService.verify(token);
+    try {
+      return isValid;
+    } catch (error) {
+      return null;
+    }
+  }
+
   async login(user: any) {
     const userFound = await this.usersService.findOne(user.username);
     const payload = { username: userFound.username, sub: userFound._id };

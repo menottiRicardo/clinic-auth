@@ -15,6 +15,10 @@ export class UsersService {
     return this.users.findOne({ username }).exec();
   }
 
+  async findUserById(id: string): Promise<User> {
+    return this.users.findOne({ _id: id }).exec();
+  }
+
   async create(user: User) {
     const createdUser = new this.users(user);
     return createdUser.save();

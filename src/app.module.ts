@@ -7,10 +7,12 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './core/guards/jwt.guard';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

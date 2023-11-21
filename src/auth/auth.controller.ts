@@ -1,8 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from 'src/core/constants';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -16,5 +17,10 @@ export class AuthController {
   @Post('sign-up')
   async signun(@Body() body) {
     return this.authService.signup(body);
+  }
+
+  @MessagePattern('validate_token')
+  public async getUserByAccessToken(@Payload() token: string) {
+    return this.authService.validateToken(token);
   }
 }
