@@ -9,7 +9,6 @@ export class AuthController {
   @Public()
   @Post('login')
   async login(@Body() body) {
-    console.log(body);
     return this.authService.login(body);
   }
 
