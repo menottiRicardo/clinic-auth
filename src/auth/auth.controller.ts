@@ -22,6 +22,7 @@ export class AuthController {
   @MessagePattern('validate_token')
   public async getUserByAccessToken(@Payload() token: string) {
     const isValid = await this.authService.validateToken(token);
-    return isValid ? true : false;
+    console.log('validating', isValid.user.username);
+    return isValid;
   }
 }

@@ -20,4 +20,9 @@ export class UsersController {
   createClinic(@Request() req) {
     return this.usersService.createClinic(req.body);
   }
+
+  @Get('sidebar')
+  getSidebar(@Request() req) {
+    return this.usersService.createSidebar(req.user);
+  }
 }

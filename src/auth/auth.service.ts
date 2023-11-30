@@ -26,7 +26,7 @@ export class AuthService {
   async validateToken(token: string): Promise<any> {
     try {
       const isValid = await this.jwtService.verifyAsync(token);
-      return isValid;
+      return { user: isValid };
     } catch (error) {
       console.log('error', error);
       return null;
@@ -35,7 +35,11 @@ export class AuthService {
 
   async login(user: any) {
     const userFound = await this.usersService.findOne(user.username);
-    const payload = { username: userFound.username, sub: userFound._id };
+    const payload = {
+      username: userFound.username,
+      sub: userFound._id,
+      role: 'DOCTOR',
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };
@@ -43,7 +47,11 @@ export class AuthService {
 
   async signup(user: User) {
     const savedUser = await this.usersService.create(user);
-    const payload = { username: savedUser.username, sub: savedUser._id };
+    const payload = {
+      username: savedUser.username,
+      sub: savedUser._id,
+      role: 'DOCTOR',
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };

@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Transport } from '@nestjs/microservices';
-
+import * as cookieParser from 'cookie-parser';
 function configureSwagger(app): void {
   const config = new DocumentBuilder()
     .setTitle('auth-service')
@@ -17,6 +17,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   app.setGlobalPrefix('/auth');
+  app.use(cookieParser());
   configureSwagger(app);
 
   app.connectMicroservice({

@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './users.schema';
 import { Clinic } from './clinic.schema';
+import { Sidebar } from 'src/core/types/sidebar';
+import { adminSidebar, doctorSidebar } from 'src/core/constants';
 
 @Injectable()
 export class UsersService {
@@ -27,5 +29,17 @@ export class UsersService {
   async createClinic(clinic: Clinic) {
     const createdClinic = new this.clinics(clinic);
     return createdClinic.save();
+  }
+
+  async createSidebar(user: User): Promise<Sidebar[]> {
+    const sidebar: Sidebar[] = [];
+    if (user.role === 'DOCTOR') {
+      sidebar.push(...doctorSidebar);
+    } else if (user.role === 'ADMIN') {
+      // get classrooms
+
+      sidebar.push(...adminSidebar);
+    }
+    return sidebar;
   }
 }
