@@ -12,8 +12,16 @@ export class UsersController {
 
   @MessagePattern('get_user_by_id')
   public async getUserById(@Payload() data: string): Promise<User> {
-    const payload = JSON.parse(data);
-    return this.usersService.findUserById(payload.sub);
+    const userId = data;
+    return this.usersService.findUserById(userId);
+  }
+
+  @MessagePattern('get_doc_by_id')
+  public async getDocInfo(@Payload() data: string) {
+    const docId = data;
+    const docInfo = await this.usersService.findDocInfo(docId);
+    console.log(docInfo);
+    return docInfo;
   }
 
   @Post('clinic')

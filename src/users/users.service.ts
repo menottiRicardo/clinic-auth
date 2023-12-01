@@ -5,6 +5,7 @@ import { User } from './users.schema';
 import { Clinic } from './clinic.schema';
 import { Sidebar } from 'src/core/types/sidebar';
 import { adminSidebar, doctorSidebar } from 'src/core/constants';
+import { SignUpUser } from 'src/auth/auth.types';
 
 @Injectable()
 export class UsersService {
@@ -18,10 +19,27 @@ export class UsersService {
   }
 
   async findUserById(id: string): Promise<User> {
-    return this.users.findOne({ _id: id }).exec();
+    return this.users.findOne({ _id: id });
   }
 
-  async create(user: User) {
+  async findClinicById(id: string): Promise<Clinic> {
+    return this.clinics.findOne({ _id: id });
+  }
+
+  async saveUserToClinic(clinicId: string, userId: string): Promise<Clinic> {
+    const clinic = await this.clinics.findOneAndUpdate(
+      { _id: clinicId },
+      { $push: { users: userId } },
+    );
+
+    return clinic;
+  }
+
+  async findDocInfo(id: string): Promise<User> {
+    return this.users.findOne({ _id: id }).populate('clinic');
+  }
+
+  async create(user: SignUpUser) {
     const createdUser = new this.users(user);
     return createdUser.save();
   }

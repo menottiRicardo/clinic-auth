@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/users.schema';
+import { SignUpUser } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -45,8 +46,10 @@ export class AuthService {
     };
   }
 
-  async signup(user: User) {
+  async signup(user: SignUpUser) {
     const savedUser = await this.usersService.create(user);
+
+    await this.usersService.saveUserToClinic(user.clinic, savedUser._id);
     const payload = {
       username: savedUser.username,
       sub: savedUser._id,

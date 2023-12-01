@@ -10,8 +10,8 @@ export class Clinic {
   @Prop({ required: true, unique: true })
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  users: User;
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  users: User[];
 
   _id: string;
 }

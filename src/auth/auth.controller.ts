@@ -15,14 +15,13 @@ export class AuthController {
 
   @Public()
   @Post('sign-up')
-  async signun(@Body() body) {
+  async signup(@Body() body) {
     return this.authService.signup(body);
   }
 
   @MessagePattern('validate_token')
   public async getUserByAccessToken(@Payload() token: string) {
     const isValid = await this.authService.validateToken(token);
-    console.log('validating', isValid.user.username);
     return isValid;
   }
 }
