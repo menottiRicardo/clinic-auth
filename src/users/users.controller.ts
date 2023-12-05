@@ -17,10 +17,11 @@ export class UsersController {
   }
 
   @MessagePattern('get_doc_by_id')
-  public async getDocInfo(@Payload() data: string) {
-    const docId = data;
-    const docInfo = await this.usersService.findDocInfo(docId);
-    console.log(docInfo);
+  public async getDocInfo(
+    @Payload() data: { doctorId: string; clinicId: string },
+  ) {
+    const { doctorId, clinicId } = data;
+    const docInfo = await this.usersService.findDocInfo(doctorId, clinicId);
     return docInfo;
   }
 

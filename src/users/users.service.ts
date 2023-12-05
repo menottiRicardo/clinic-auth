@@ -35,8 +35,10 @@ export class UsersService {
     return clinic;
   }
 
-  async findDocInfo(id: string): Promise<User> {
-    return this.users.findOne({ _id: id }).populate('clinic');
+  async findDocInfo(docId: string, clinicId: string) {
+    const doc = await this.users.findOne({ _id: docId });
+    const clinic = await this.clinics.findOne({ _id: clinicId });
+    return { doc, clinic };
   }
 
   async create(user: SignUpUser) {

@@ -7,7 +7,7 @@ export type ClinicDocument = HydratedDocument<Clinic>;
 
 @Schema()
 export class Clinic {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   name: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
