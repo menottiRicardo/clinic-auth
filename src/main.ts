@@ -16,14 +16,13 @@ function configureSwagger(app): void {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
-  app.setGlobalPrefix('/auth');
   app.use(cookieParser());
   configureSwagger(app);
 
   app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://localhost:5672'],
+      urls: [configService.get('RABBITMQ_URL')],
       queue: `${configService.get('RABBITMQ_AUTH_QUEUE')}`,
       prefetchCount: 1,
     },
